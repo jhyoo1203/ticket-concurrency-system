@@ -21,3 +21,9 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
     open-in-view: false
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "prometheus"
