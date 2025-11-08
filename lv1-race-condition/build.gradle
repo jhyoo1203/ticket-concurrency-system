@@ -1,5 +1,5 @@
 dependencies {
-
+    runtimeOnly 'org.springframework.boot:spring-boot-docker-compose'
 }
 
 bootJar {

@@ -7,6 +7,10 @@ spring:
     username: ticket_user
     password: ticket_password
 
+  docker:
+    compose:
+      file: infra/docker-compose.yml
+
   jpa:
     database: postgresql
     hibernate:
