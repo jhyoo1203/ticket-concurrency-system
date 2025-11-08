@@ -1,0 +1,12 @@
+dependencies {
+    runtimeOnly 'org.springframework.boot:spring-boot-docker-compose'
+}
+
+bootJar {
+    enabled = true
+    archiveFileName = 'lv1-race-condition.jar'
+}
+
+jar {
+    enabled = false
+}
