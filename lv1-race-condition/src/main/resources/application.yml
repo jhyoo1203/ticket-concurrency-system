@@ -1,6 +1,6 @@
 spring:
   application:
-    name:lv1-race-condition
+    name: lv1-race-condition
   datasource:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://localhost:5434/ticket_db
@@ -14,7 +14,7 @@ spring:
   jpa:
     database: postgresql
     hibernate:
-      ddl-auto: none
+      ddl-auto: create
     show-sql: true
     properties:
       hibernate:
