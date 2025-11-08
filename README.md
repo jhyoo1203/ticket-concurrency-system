@@ -24,7 +24,7 @@
 - **In-Memory**: `Redis`
 - **Distributed Lock**: `Redisson`
 - **Message Queue**: `Kafka`
-- **Test**: `JUnit 5`, `JMeter` (혹은 `K6`, `nGrinder` 등 부하 테스트 툴)
+- **Test**: `JUnit 5`, `K6`
 - **Container**: `Docker`, `Docker Compose`
 
 <br>
