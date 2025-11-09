@@ -71,7 +71,7 @@ services:
       timeout: 10s
       retries: 5
 
-  ticket-grafana:
+  grafana:
     image: grafana/grafana:12.1.1
     container_name: ticket-grafana
     ports:
@@ -80,7 +80,7 @@ services:
       - grafana-data:/var/lib/grafana
     restart: unless-stopped
 
-  ticket-prometheus:
+  prometheus:
     image: prom/prometheus:v3.5.0
     container_name: ticket-prometheus
     ports:
