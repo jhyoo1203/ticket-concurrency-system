@@ -1,3 +1,4 @@
 rootProject.name = 'ticket-concurrency-system'
 
 include 'lv1-race-condition'
+include 'lv2-db-lock'
