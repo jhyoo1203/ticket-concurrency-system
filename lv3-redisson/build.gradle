@@ -1,0 +1,13 @@
+dependencies {
+    // Redisson for distributed lock
+    implementation 'org.redisson:redisson-spring-boot-starter:3.35.0'
+}
+
+bootJar {
+    enabled = true
+    archiveFileName = 'lv3-redisson.jar'
+}
+
+jar {
+    enabled = false
+}
