@@ -96,6 +96,15 @@ public class Ticket {
 - 동시 요청: 1000명
 - 예상 결과: 100명만 성공, 900명 실패
 
+### Synchronized
+![img.png](img.png)
+
+### Pessimistic Lock
+![img_1.png](img_1.png)
+
+### Optimistic Lock
+![img_2.png](img_2.png)
+
 <br>
 
 ## 주요 학습 내용
@@ -110,6 +119,7 @@ public class Ticket {
 
 ### 3. 트레이드오프 (Trade-off)
 - **데이터 정합성 vs 성능**: 락이 강할수록 정합성은 보장되지만 성능은 떨어짐
+- **성능 비교**: Synchronized < Pessimistic Lock < Optimistic Lock
 - **구현 복잡도**: Synchronized < Pessimistic Lock < Optimistic Lock (재시도 로직 포함)
 
 <br>
