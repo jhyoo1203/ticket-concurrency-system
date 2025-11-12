@@ -3,7 +3,6 @@ package com.ticket.lv2dblock.application;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ticket.lv2dblock.domain.Reservation;
@@ -23,7 +22,7 @@ public class OptimisticLockFacade {
     private final TicketRepository ticketRepository;
     private final ReservationRepository reservationRepository;
 
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    @Transactional
     public void reserveTicket(Long ticketId, String userId) {
         // 1. 티켓 조회 with Optimistic Lock
         Ticket ticket = ticketRepository.findByIdWithOptimisticLock(ticketId)
