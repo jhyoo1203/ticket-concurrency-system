@@ -18,7 +18,7 @@ services:
       timeout: 5s
       retries: 5
 
-  # Redis (LV.3, LV.4에서 사용)
+  # Redis (LV.3에서 사용)
   redis:
     image: redis:7-alpine
     container_name: ticket-redis
@@ -32,7 +32,7 @@ services:
       timeout: 5s
       retries: 5
 
-  # Zookeeper (Kafka 의존성 - LV.5에서 사용)
+  # Zookeeper (Kafka 의존성 - LV.4에서 사용)
   zookeeper:
     image: confluentinc/cp-zookeeper:7.5.0
     container_name: ticket-zookeeper
@@ -44,7 +44,7 @@ services:
     networks:
       - ticket-network
 
-  # Kafka (LV.5에서 사용)
+  # Kafka (LV.4에서 사용)
   kafka:
     image: confluentinc/cp-kafka:7.5.0
     container_name: ticket-kafka

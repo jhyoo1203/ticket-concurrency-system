@@ -143,11 +143,11 @@ public class Ticket {
 
 ## 다음 단계 (LV.3)
 
-DB Lock의 한계를 극복하기 위해 **Redis**를 도입합니다.
+DB Lock의 한계를 극복하기 위해 **Redisson**을 도입합니다.
 
-- **재고 관리를 Redis로 분리**하여 DB 부하 감소
-- **Atomic 연산**으로 락 없이 동시성 제어
-- 성능 대폭 향상 예상
+- **Redisson의 분산 락(Distributed Lock)**으로 멀티 인스턴스 환경에서 동시성 제어
+- **RLock**을 통한 안정적인 락 획득/해제
+- DB 부하 감소 및 성능 향상 예상
 
 <br>
 
