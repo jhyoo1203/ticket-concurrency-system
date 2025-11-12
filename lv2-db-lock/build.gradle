@@ -3,7 +3,7 @@ dependencies {
 
 bootJar {
     enabled = true
-    archiveFileName = 'lv1-race-condition.jar'
+    archiveFileName = 'lv2-db-lock.jar'
 }
 
 jar {
