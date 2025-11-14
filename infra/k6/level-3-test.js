@@ -7,14 +7,15 @@ const successCounter = new Counter('reservation_success');
 const failureCounter = new Counter('reservation_failure');
 const lockTimeoutCounter = new Counter('lock_timeout');
 
-// LV.3: Redisson 분산 락 동시성 테스트
-// 1000명이 동시에 100개 티켓 예매 시도
+// LV.3: Redisson 분산 락 동시성 테스트 (다중 인스턴스)
+// 1000명이 동시에 100개 티켓 예매 시도 (3개 인스턴스 + Nginx 로드밸런서)
 export const options = {
   vus: 100,           // 100명의 가상 사용자
   iterations: 1000,   // 총 1000번의 예매 시도
   duration: '30s',    // 최대 30초
 };
 
+// Nginx 로드밸런서를 통해 3개의 애플리케이션 인스턴스로 요청 분산
 const BASE_URL = 'http://localhost:8080';
 const TICKET_ID = 1;
 
@@ -99,22 +100,6 @@ export function teardown(data) {
       console.log(`   ✅ 정상: 재고가 정확히 관리되었습니다.`);
       console.log(`   ✅ 정합성 검증: 재고 차감(${stockDecreased}) = 예약 건수(${newReservations})`);
     }
-
-    console.log(`\n💡 Trade-off 확인:`);
-    console.log(`   - 분산 락도 '락'이므로 대기 시간이 발생합니다.`);
-    console.log(`   - 하지만 복잡한 비즈니스 로직(중복 구매 방지 + 재고 차감)의 정합성을 보장합니다.`);
-    console.log(`   - Redis 장애 시 시스템 전체에 영향을 미칠 수 있습니다.`);
-
-    console.log(`\n🎯 LV.3의 장점:`);
-    console.log(`   ✅ 분산 환경(멀티 인스턴스)에서도 동작`);
-    console.log(`   ✅ 중복 구매 방지 + 재고 차감을 원자적으로 처리`);
-    console.log(`   ✅ DB 부하가 Pessimistic Lock보다 적음`);
-    console.log(`   ✅ Pub/Sub 방식으로 효율적인 대기 (Spin Lock 아님)`);
-
-    console.log(`\n⚠️  LV.3의 한계:`);
-    console.log(`   ⚠️  락 대기 시간(Latency)은 여전히 존재`);
-    console.log(`   ⚠️  Redis 장애 시 시스템 전체 영향 (SPoF)`);
-    console.log(`   ⚠️  네트워크 오버헤드 발생`);
   } else {
     console.log('❌ 최종 티켓 정보를 가져올 수 없습니다.');
   }
