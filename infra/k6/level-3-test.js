@@ -7,14 +7,15 @@ const successCounter = new Counter('reservation_success');
 const failureCounter = new Counter('reservation_failure');
 const lockTimeoutCounter = new Counter('lock_timeout');
 
-// LV.3: Redisson 분산 락 동시성 테스트
-// 1000명이 동시에 100개 티켓 예매 시도
+// LV.3: Redisson 분산 락 동시성 테스트 (다중 인스턴스)
+// 1000명이 동시에 100개 티켓 예매 시도 (3개 인스턴스 + Nginx 로드밸런서)
 export const options = {
   vus: 100,           // 100명의 가상 사용자
   iterations: 1000,   // 총 1000번의 예매 시도
   duration: '30s',    // 최대 30초
 };
 
+// Nginx 로드밸런서를 통해 3개의 애플리케이션 인스턴스로 요청 분산
 const BASE_URL = 'http://localhost:8080';
 const TICKET_ID = 1;
 
