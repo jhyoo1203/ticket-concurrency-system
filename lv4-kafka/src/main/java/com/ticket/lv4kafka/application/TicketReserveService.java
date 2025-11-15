@@ -8,10 +8,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.concurrent.TimeUnit;
 
-/**
- * LV.4: Kafka Consumer에서 호출하는 예매 처리 Facade
- * Redisson 분산 락을 이용하여 정합성 보장
- */
 @Slf4j
 @Service
 @RequiredArgsConstructor
