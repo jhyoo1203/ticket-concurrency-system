@@ -6,16 +6,13 @@ import com.ticket.lv3redisson.infrastructure.ReservationRepository;
 import com.ticket.lv3redisson.infrastructure.TicketRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-/**
- * Redisson 분산 락을 이용한 예매 처리 Facade
- */
 @Slf4j
-@Component
+@Service
 @RequiredArgsConstructor
-public class RedissonLockFacade {
+public class TicketReserveService {
 
     private final TicketRepository ticketRepository;
     private final ReservationRepository reservationRepository;

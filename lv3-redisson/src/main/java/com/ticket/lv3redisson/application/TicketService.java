@@ -24,7 +24,7 @@ public class TicketService {
     private final RedissonClient redissonClient;
     private final TicketRepository ticketRepository;
     private final ReservationRepository reservationRepository;
-    private final RedissonLockFacade redissonLockFacade;
+    private final TicketReserveService ticketReserveService;
 
     /**
      * LV.3: Redisson 분산 락
@@ -56,7 +56,7 @@ public class TicketService {
             log.info("[Redisson Lock] 락 획득 성공 - 티켓 ID: {}, 사용자: {}", ticketId, userId);
 
             // 2. 락을 획득한 후, 트랜잭션 내에서 비즈니스 로직 수행
-            redissonLockFacade.reserveTicket(ticketId, userId);
+            ticketReserveService.reserveTicket(ticketId, userId);
 
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();

@@ -17,7 +17,7 @@ public class TicketService {
 
     private final TicketRepository ticketRepository;
     private final ReservationRepository reservationRepository;
-    private final OptimisticLockFacade optimisticLockFacade;
+    private final TicketReserveService ticketReserveService;
 
     /**
      * LV.2-1: Synchronized 키워드 사용
@@ -112,7 +112,7 @@ public class TicketService {
 
         while (retryCount <= maxRetries) {
             try {
-                optimisticLockFacade.reserveTicket(ticketId, userId);
+                ticketReserveService.reserveTicket(ticketId, userId);
                 return; // 성공 시 리턴
             } catch (ObjectOptimisticLockingFailureException e) {
                 retryCount++;

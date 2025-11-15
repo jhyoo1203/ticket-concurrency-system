@@ -2,7 +2,7 @@ package com.ticket.lv2dblock.application;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ticket.lv2dblock.domain.Reservation;
@@ -10,14 +10,10 @@ import com.ticket.lv2dblock.domain.Ticket;
 import com.ticket.lv2dblock.infrastructure.ReservationRepository;
 import com.ticket.lv2dblock.infrastructure.TicketRepository;
 
-/**
- * Optimistic Lock용 트랜잭션 Facade
- * Self-invocation 문제를 해결하기 위한 별도 컴포넌트
- */
 @Slf4j
-@Component
+@Service
 @RequiredArgsConstructor
-public class OptimisticLockFacade {
+public class TicketReserveService {
 
     private final TicketRepository ticketRepository;
     private final ReservationRepository reservationRepository;
