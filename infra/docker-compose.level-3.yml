@@ -7,7 +7,7 @@ services:
     build:
       context: ../lv3-redisson
       dockerfile: Dockerfile
-    container_name: ticket-app1
+    container_name: ticket-level-3-app1
     environment:
       DB_HOST: postgres
       DB_PORT: 5432
@@ -31,7 +31,7 @@ services:
     build:
       context: ../lv3-redisson
       dockerfile: Dockerfile
-    container_name: ticket-app2
+    container_name: ticket-level-3-app2
     environment:
       DB_HOST: postgres
       DB_PORT: 5432
@@ -55,7 +55,7 @@ services:
     build:
       context: ../lv3-redisson
       dockerfile: Dockerfile
-    container_name: ticket-app3
+    container_name: ticket-level-3-app3
     environment:
       DB_HOST: postgres
       DB_PORT: 5432
