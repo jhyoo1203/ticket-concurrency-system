@@ -69,8 +69,8 @@ export function teardown(data) {
   console.log('='.repeat(60));
 
   // Kafka Consumer가 메시지를 처리할 시간 확보 (대량 요청이므로 충분한 시간 필요)
-  console.log('⏳ 20초 대기 중 (Kafka Consumer 처리 시간)...');
-  sleep(20);
+  console.log('⏳ 30초 대기 중 (Kafka Consumer 처리 시간)...');
+  sleep(30);
 
   const res = http.get(`${BASE_URL}/api/tickets/${TICKET_ID}`);
   if (res.status === 200) {
