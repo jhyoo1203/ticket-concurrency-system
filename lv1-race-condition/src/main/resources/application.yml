@@ -1,0 +1,29 @@
+spring:
+  application:
+    name: lv1-race-condition
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5434/ticket_db
+    username: ticket_user
+    password: ticket_password
+
+  docker:
+    compose:
+      file: infra/docker-compose.yml
+
+  jpa:
+    database: postgresql
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+    open-in-view: false
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "prometheus"

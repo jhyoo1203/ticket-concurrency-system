@@ -1,0 +1,11 @@
+dependencies {
+}
+
+bootJar {
+    enabled = true
+    archiveFileName = 'lv1-race-condition.jar'
+}
+
+jar {
+    enabled = false
+}
