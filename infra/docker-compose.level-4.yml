@@ -1,0 +1,112 @@
+# LV.4 Kafka 메시지 큐 테스트용 - 멀티 인스턴스 + 로드밸런서
+# docker-compose -f docker-compose.yml -f docker-compose.level-4.yml up -d
+
+services:
+  # 인스턴스 1
+  app1:
+    build:
+      context: ../lv4-kafka
+      dockerfile: Dockerfile
+    container_name: ticket-level-4-app1
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
+    networks:
+      - ticket-network
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:8080/actuator/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # 인스턴스 2
+  app2:
+    build:
+      context: ../lv4-kafka
+      dockerfile: Dockerfile
+    container_name: ticket-level-4-app2
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
+    networks:
+      - ticket-network
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:8080/actuator/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # 인스턴스 3
+  app3:
+    build:
+      context: ../lv4-kafka
+      dockerfile: Dockerfile
+    container_name: ticket-level-4-app3
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
+    networks:
+      - ticket-network
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:8080/actuator/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Nginx 로드밸런서
+  nginx:
+    image: nginx:1.27-alpine
+    container_name: ticket-nginx
+    ports:
+      - "8080:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      app1:
+        condition: service_healthy
+      app2:
+        condition: service_healthy
+      app3:
+        condition: service_healthy
+    networks:
+      - ticket-network
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost/actuator/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+networks:
+  ticket-network:
+    name: infra_ticket-network
+    external: true
