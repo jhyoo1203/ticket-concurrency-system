@@ -1,22 +1,25 @@
-# LV.3 Redisson 분산 락 테스트용 - 멀티 인스턴스 + 로드밸런서
-# docker-compose -f docker-compose.yml -f docker-compose.level-3.yml up -d
+# LV.4 Kafka 메시지 큐 테스트용 - 멀티 인스턴스 + 로드밸런서
+# docker-compose -f docker-compose.yml -f docker-compose.level-4.yml up -d
 
 services:
   # 인스턴스 1
   app1:
     build:
-      context: ../lv3-redisson
+      context: ../lv4-kafka
       dockerfile: Dockerfile
-    container_name: ticket-level-3-app1
+    container_name: ticket-level-4-app1
     environment:
       DB_HOST: postgres
       DB_PORT: 5432
       REDIS_HOST: redis
       REDIS_PORT: 6379
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
     depends_on:
       postgres:
         condition: service_healthy
       redis:
+        condition: service_healthy
+      kafka:
         condition: service_healthy
     networks:
       - ticket-network
@@ -29,18 +32,21 @@ services:
   # 인스턴스 2
   app2:
     build:
-      context: ../lv3-redisson
+      context: ../lv4-kafka
       dockerfile: Dockerfile
-    container_name: ticket-level-3-app2
+    container_name: ticket-level-4-app2
     environment:
       DB_HOST: postgres
       DB_PORT: 5432
       REDIS_HOST: redis
       REDIS_PORT: 6379
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
     depends_on:
       postgres:
         condition: service_healthy
       redis:
+        condition: service_healthy
+      kafka:
         condition: service_healthy
     networks:
       - ticket-network
@@ -53,18 +59,21 @@ services:
   # 인스턴스 3
   app3:
     build:
-      context: ../lv3-redisson
+      context: ../lv4-kafka
       dockerfile: Dockerfile
-    container_name: ticket-level-3-app3
+    container_name: ticket-level-4-app3
     environment:
       DB_HOST: postgres
       DB_PORT: 5432
       REDIS_HOST: redis
       REDIS_PORT: 6379
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
     depends_on:
       postgres:
         condition: service_healthy
       redis:
+        condition: service_healthy
+      kafka:
         condition: service_healthy
     networks:
       - ticket-network

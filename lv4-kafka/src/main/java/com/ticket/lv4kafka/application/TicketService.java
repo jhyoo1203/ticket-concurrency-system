@@ -1,21 +1,18 @@
-package com.ticket.lv3redisson.application;
+package com.ticket.lv4kafka.application;
 
-import com.ticket.lv3redisson.domain.Reservation;
-import com.ticket.lv3redisson.domain.Ticket;
-import com.ticket.lv3redisson.infrastructure.ReservationRepository;
-import com.ticket.lv3redisson.infrastructure.TicketRepository;
+import com.ticket.lv4kafka.domain.Reservation;
+import com.ticket.lv4kafka.domain.Ticket;
+import com.ticket.lv4kafka.infrastructure.ReservationRepository;
+import com.ticket.lv4kafka.infrastructure.TicketRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-/**
- * Redisson 분산 락을 이용한 예매 처리 Facade
- */
 @Slf4j
-@Component
+@Service
 @RequiredArgsConstructor
-public class RedissonLockFacade {
+public class TicketService {
 
     private final TicketRepository ticketRepository;
     private final ReservationRepository reservationRepository;
@@ -29,17 +26,17 @@ public class RedissonLockFacade {
         // 2. 중복 구매 확인
         boolean alreadyReserved = reservationRepository.existsByTicketIdAndUserId(ticketId, userId);
         if (alreadyReserved) {
-            log.warn("[Redisson Lock] 중복 예매 시도 - 티켓 ID: {}, 사용자: {}", ticketId, userId);
+            log.warn("[Kafka Consumer] 중복 예매 시도 - 티켓 ID: {}, 사용자: {}", ticketId, userId);
             throw new IllegalStateException("이미 예매한 티켓입니다.");
         }
 
         // 3. 재고 확인
         if (!ticket.hasStock()) {
-            log.warn("[Redisson Lock] 재고 부족 - 티켓 ID: {}, 사용자: {}", ticketId, userId);
+            log.warn("[Kafka Consumer] 재고 부족 - 티켓 ID: {}, 사용자: {}", ticketId, userId);
             throw new IllegalStateException("재고가 부족합니다.");
         }
 
-        // 10ms 지연
+        // 10ms 지연 (실제 비즈니스 로직 시뮬레이션)
         try {
             Thread.sleep(10);
         } catch (InterruptedException e) {
@@ -54,6 +51,17 @@ public class RedissonLockFacade {
         Reservation reservation = new Reservation(ticketId, userId);
         reservationRepository.save(reservation);
 
-        log.info("[Redisson Lock] 예약 완료 - 티켓 ID: {}, 사용자: {}, 남은 재고: {}", ticketId, userId, ticket.getStock());
+        log.info("[Kafka Consumer] 예약 완료 - 티켓 ID: {}, 사용자: {}, 남은 재고: {}", ticketId, userId, ticket.getStock());
+    }
+
+    @Transactional(readOnly = true)
+    public Ticket getTicket(Long ticketId) {
+        return ticketRepository.findById(ticketId)
+                .orElseThrow(() -> new IllegalArgumentException("티켓을 찾을 수 없습니다."));
+    }
+
+    @Transactional(readOnly = true)
+    public long getReservationCount(Long ticketId) {
+        return reservationRepository.countByTicketId(ticketId);
     }
 }
